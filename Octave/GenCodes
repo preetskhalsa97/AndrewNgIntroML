@@ -1,0 +1,205 @@
+BASIC OPERATIONS
+
+5+6
+5^6 % raised to the power
+a=4
+A=[2 3;4 5;6 7]
+B=eye(4) % 4X4 identity matrix
+C=ones(2,3) % 2X3 matrix, all ones
+C=zeros(2,3)
+1==2
+1~=2 % not equal to
+xor(1,2,1)
+1&&2 % = 1
+1||3
+x=3
+disp(x)
+disp(sprintf('double decimal : %0.2f',x)) % will print till 2 decimal
+y=pi
+v=1:.1:2 % v=[1,1.1,1.2,...,1.9,2]
+v=1:6 % v=[1,2,3,4,5,6]
+rand(3,3) % random numbers between 0 to 1, normal dsitribution
+radn(3,3) % random numbers with a gaussian distribution- mean 0 s.d. 1
+hist(<matrix>) % histogram of values of the matrices
+
+MOVING DATA AROUND
+
+size(A) % gives a 1X2 matrix, [ rows columns ]
+size(A,1) % gives the first dimension of A which is the number of rows
+length(A) % gives size of the longest dimension; usually applied to vectors
+% loading data
+pwd % print working directory
+cd ... % changing directory
+ls % usual
+
+%assuming features are stored in featuresX.dat and corresponding prices in priceY.dat
+load featuresX.dat % same as load('featuresX.dat')
+load priceY.dat
+
+who % shows the variables in current scope
+
+featuresX % displays data in X
+
+whos % shows variables as well as their matrix size
+
+clear featuresX % featuresX data disappeared
+
+v = priceY(1:10) % first 10 observations
+
+save hello.mat v; %saves v in a file hello.mat
+
+clear % clears all the variables
+
+save hello.txt v -ascii % saving in a txt format
+
+A(3,2) % gives out the element at the intersection of third row and second column
+A(2,:) % everything in the second row (row vector)
+A(:,2) % everything in the second column (column vector)
+A([1 3],:) % 2Xn matrix, returning everything from the columns 1 and 3
+
+%can be used for assignment of column
+
+A(:,2) = [10;11;12]
+
+A = [A,[100;200;300]]; % will append another column vector [100,200,300] to the right of A
+
+A(:) % put all elements of A in a column vector
+
+C = [A B] % concatenating A and B, A on the left, B on the right; same as [A,B]
+
+C = [A : B] % puts B on the bottom of A
+
+COMPUTING ON DATA
+
+A*B % multiplication of matrices
+A.*B % multiplication of corresponding elements of matrices
+A.^2 % each element is squared
+1./A % each element of A is inverted
+log(A) % element wise log for matrix A
+exp(A) % element wise...
+abs(A) % element wise absolute value of A
+
+val = max(z) % maximum value in z is a is a vector (row or column, doesn't matter)
+[val,ind] = max(z) % val is the max value, ind is the  index
+
+A<3 % does element wise comparison, outputs a matrix of size(A) with 0 and 1 values; 1 if that element < 3
+
+find(A<3) % tells which elements are < 3; if A ain't a vector, gives a column vector with indices where the logic is true
+% ( .. cont. ) counting of the indices however, start from the top left towards down
+
+[r,c] = find(A<3) % returns two vectors r and c; A[r[i],c[i]] satisfies the condition
+
+d = magic(3) % 3X3 magic square
+
+sum(d) % sum of all elements of d
+
+prod(d) % product of all elements of d
+
+floor(d) % sets all elements to floor
+
+ceil(d) % sets all elements to ceil
+
+max (A,B); element wise max of two matrices A and B
+
+max(A,[],1) % takes column wise maximum and generates a 1Xn matrix
+
+max(A,[],2) % takes row wise maximum and generates a mX1 matrix
+
+max(A) % same as max(A,[],1)
+
+max(max(A)) % finds maximum element of the matrix
+
+sum(A,1) % 1Xm matrix of sum of all elements in each column
+
+sum(A,2) % nX1 matrix of sum of all elements in each row
+
+% to find the sum of diagonals, multiply term by term with an identity matrix ==> only diags remain, everything set to zero:
+
+sum(sum(A.*eye(length(A)))); 
+
+Ainverse = pinv(A);
+
+PLOTTING DATA
+
+t = [0:.01:.98];
+y1 = sin(2*pi*4*t);
+plot(t,y1);
+y2 = cos(2*pi*4*t);
+plot(t,y1);
+hold on; % after the execution of next line, we will get two simultaneous plots
+plot(t,y2,r); % r -> red color
+xlabel('time');
+ylabel('value');
+legend('sin','cos');
+title('myPlot');
+
+print -dpng 'myPlot.png'; %saves the plot as a png
+
+close; % closes the plot
+
+%Specifying figure numbers:
+
+figure(1); plot(t,y1);
+figure(2); plot(t,y2);
+
+%plotting two different curves in the same panel
+subplot(1,2,1); % divides plot into a 1 by 2 grid ==> one row, two columns (first and second argument) and accesses the first element (third argument)
+plot(...); %plots on the left half
+subplot(1,2,2);
+plot(...); %plots on the right half
+
+axis (<x1> <x2> <y1> <y2>) % setting the axis of the plots on the panel
+
+clf; %clears the figure
+
+imagesc(A); % plots each different value of a matrix as a different color
+
+imagesc(A), colorbar, colormap(gray); %plots the color, colorbar shows mapping of colors to magnitude of the number, colormap(gray) ==> grayscale
+
+CONTROL STATEMENTS
+
+v = zeros (10,1);
+for i=1:10,
+	v(i)=2^i;
+end;
+
+while i<=5,
+	v(i)=100;
+	i=i+1;
+end;
+
+i=1;
+
+while true,
+	v(i) =999;
+	i=i+1;
+	if i==6, 
+		break;
+	end;
+end;
+
+if v(1)==1,
+	disp("cdsDFFVSDAd");
+elseif v(1)==2,
+	disp("FDSDSFDSD");
+else,
+	disp("dfsdsdfsadwssasjuyt");
+end;
+
+FUNCTIONS
+
+% create a file called funcitionName.m
+% ex.- squareThisNumber.m
+
+function y = squareThirNumber(x)
+y = x^2;
+
+ADDING SEARCH PATH (octave looks into this path for functions, data etc. wherever it is)
+
+addpath('..............');
+
+RETURNING MULTIPLE VALUES THROUGH A FUNCTION
+
+function[y1,y2] = squareAndCubeThisNumber(x)
+y1=x^2;
+y2=x^3;
